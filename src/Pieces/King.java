@@ -42,4 +42,14 @@ public class King extends Piece{
         }
         return true;
     }
+
+    public void setStartingPosition(){
+        this.setyAxis(4);
+        if(this.getColor() == Color.BLACK){
+            this.setyAxis(7);
+        }
+        else{
+            this.setyAxis(0);
+        }
+    }
 }

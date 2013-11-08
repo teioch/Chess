@@ -8,4 +8,7 @@ package Game;
  * To change this template use File | Settings | File Templates.
  */
 public class Game {
+    public static void main(String[] args){
+
+    }
 }

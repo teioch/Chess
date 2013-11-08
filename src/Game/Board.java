@@ -15,7 +15,7 @@ public class Board {
 
     }
 
-    public void setBoard(){
-
+    public void setBoard(Piece piece, int x, int y){
+        board[x][y] = piece;
     }
 }

@@ -32,4 +32,24 @@ public class Knight extends Piece{
             return false;
         }
     }
+
+    public void setStartingPositionOne(){
+        this.setxAxis(1);
+        if(this.getColor() == Color.BLACK){
+            this.setyAxis(7);
+        }
+        else{
+            this.setyAxis(0);
+        }
+    }
+
+    public void startingPositionTwo(){
+        this.setxAxis(6);
+        if(this.getColor() == Color.BLACK){
+            this.setyAxis(7);
+        }
+        else{
+            this.setyAxis(0);
+        }
+    }
 }

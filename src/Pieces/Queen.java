@@ -27,4 +27,14 @@ public class Queen extends Piece {
             return false;
         }
     }
+
+    public void setStartingPosition(){
+        this.setxAxis(3);
+        if(this.getColor() == Color.BLACK){
+            this.setyAxis(7);
+        }
+        else{
+            this.setyAxis(0);
+        }
+    }
 }

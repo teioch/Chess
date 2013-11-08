@@ -29,4 +29,14 @@ public class Pawn extends Piece{
         }
         return false;
     }
+
+    public void setStartingPosition(int x){
+        this.setxAxis(x);
+        if(this.getColor() == Color.BLACK){
+            this.setyAxis(6);
+        }
+        else{
+            this.setyAxis(1);
+        }
+    }
 }

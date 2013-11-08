@@ -26,4 +26,24 @@ public class Bishop extends Piece{
             return false;
         }
     }
+
+    public void setToStartingPositionOne(){
+        this.setxAxis(2);
+        if(this.getColor() == Color.BLACK){
+            this.setyAxis(7);
+        }
+        else if(this.getColor() == Color.WHITE){
+            this.setyAxis(0);
+        }
+    }
+
+    public void setToStartingPositionTwo(){
+        this.setxAxis(5);
+        if(this.getColor() == Color.BLACK){
+            this.setyAxis(7);
+        }
+        else{
+            this.setyAxis(0);
+        }
+    }
 }
