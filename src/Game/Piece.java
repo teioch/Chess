@@ -1,3 +1,5 @@
+package Game;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Geir
@@ -10,18 +12,40 @@ public class Piece {
     private Type type;
     private int xAxis;
     private int yAxis;
+    private boolean hasMoved;
 
-    public Piece(Color color, Type type){
+    public Piece(){
+
+    }
+
+    public Piece (Color color, Type type){
         this.color = color;
         this.type = type;
+        this.hasMoved = false;
     }
 
     public Color getColor(){
         return color;
     }
 
+    public void setColor(Color color){
+        this.color = color;
+    }
+
+    public boolean getHasMoved(){
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved){
+        this.hasMoved = hasMoved;
+    }
+
     public Type getType(){
         return type;
+    }
+
+    public void setType(Type type){
+        this.type = type;
     }
 
     public int getxAxis(){
