@@ -8,6 +8,7 @@ package Game;
  * To change this template use File | Settings | File Templates.
  */
 public enum Color {
+    BLANK,
     WHITE,
     BLACK
 }

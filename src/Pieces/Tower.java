@@ -16,6 +16,12 @@ public class Tower extends Piece{
     public Tower(Color color){
         this.setColor(color);
         this.setType(Type.TOWER);
+        if(this.getColor() == Color.BLACK){
+            this.setIcon("B.T");
+        }
+        else{
+            this.setIcon("W.T");
+        }
     }
 
     public boolean isValidMove(int x, int y){

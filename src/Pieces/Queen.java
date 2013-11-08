@@ -17,6 +17,12 @@ public class Queen extends Piece {
     public Queen(Color color){
         this.setColor(color);
         this.setType(Type.QUEEN);
+        if(this.getColor() == Color.BLACK){
+            this.setIcon("B.Q");
+        }
+        else{
+            this.setIcon("W.Q");
+        }
     }
 
     public boolean isValidMove(int x, int y){

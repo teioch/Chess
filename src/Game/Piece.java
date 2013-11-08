@@ -10,6 +10,7 @@ package Game;
 public class Piece {
     private Color color;
     private Type type;
+    private String icon;
     private int xAxis;
     private int yAxis;
     private boolean hasMoved;
@@ -32,20 +33,28 @@ public class Piece {
         this.color = color;
     }
 
-    public boolean getHasMoved(){
-        return hasMoved;
-    }
-
-    public void setHasMoved(boolean hasMoved){
-        this.hasMoved = hasMoved;
-    }
-
     public Type getType(){
         return type;
     }
 
     public void setType(Type type){
         this.type = type;
+    }
+
+    public void setIcon(String icon){
+        this.icon = icon;
+    }
+
+    public String getIcon(){
+        return icon;
+    }
+
+    public boolean getHasMoved(){
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved){
+        this.hasMoved = hasMoved;
     }
 
     public int getxAxis(){

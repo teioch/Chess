@@ -16,6 +16,12 @@ public class Pawn extends Piece{
     public Pawn(Color color){
         this.setColor(color);
         this.setType(Type.PAWN);
+        if(this.getColor() == Color.BLACK){
+            this.setIcon("B.P");
+        }
+        else{
+            this.setIcon("W.P");
+        }
     }
 
     public boolean isValidMove(int x, int y){

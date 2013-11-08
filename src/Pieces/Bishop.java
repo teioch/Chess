@@ -16,6 +16,12 @@ public class Bishop extends Piece{
     public Bishop(Color color){
         this.setColor(color);
         this.setType(Type.BISHOP);
+        if(this.getColor() == Color.BLACK){
+            this.setIcon("B.B");
+        }
+        else{
+            this.setIcon("W.B");
+        }
     }
 
     public boolean isValidMove(int x, int y){

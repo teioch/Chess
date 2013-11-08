@@ -16,6 +16,12 @@ public class Knight extends Piece{
     public Knight(Color color){
         this.setColor(color);
         this.setType(Type.KNIGHT);
+        if(this.getColor() == Color.BLACK){
+            this.setIcon("B.N");
+        }
+        else{
+            this.setIcon("W.N");
+        }
     }
 
     public boolean isValidMove(int x, int y){

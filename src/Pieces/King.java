@@ -16,6 +16,12 @@ public class King extends Piece{
     public King(Color color){
         this.setType(Type.KING);
         this.setColor(color);
+        if(this.getColor() == Color.BLACK){
+            this.setIcon("B.K");
+        }
+        else{
+            this.setIcon("W.K");
+        }
     }
 
     public boolean isValidMove(int x, int y){
