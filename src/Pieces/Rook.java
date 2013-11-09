@@ -12,10 +12,10 @@ import Game.Type;
  * Time: 12:52
  * To change this template use File | Settings | File Templates.
  */
-public class Tower extends Piece{
-    public Tower(Color color){
+public class Rook extends Piece{
+    public Rook(Color color){
         this.setColor(color);
-        this.setType(Type.TOWER);
+        this.setType(Type.ROOK);
         if(this.getColor() == Color.BLACK){
             this.setIcon("B.T");
         }
