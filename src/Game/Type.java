@@ -13,6 +13,6 @@ public enum Type {
     QUEEN,
     BISHOP,
     KNIGHT,
-    TOWER,
+    ROOK,
     PAWN
 }

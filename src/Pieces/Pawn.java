@@ -1,6 +1,7 @@
 package Pieces;
 
 import Game.Color;
+import Game.Coordinate;
 import Game.Movement;
 import Game.Type;
 import Game.Piece;
@@ -13,36 +14,29 @@ import Game.Piece;
  * To change this template use File | Settings | File Templates.
  */
 public class Pawn extends Piece{
+
     public Pawn(Color color){
         this.setColor(color);
         this.setType(Type.PAWN);
+        this.setHasMoved(false);
         if(this.getColor() == Color.BLACK){
-            this.setIcon("B.P");
+            this.setIcon("B:♙");
         }
         else{
-            this.setIcon("W.P");
+            this.setIcon("W:♙");
         }
     }
 
-    public boolean isValidMove(int x, int y){
-        if(Movement.isVertical(this, x, y)){
-            if(Math.abs(this.getxAxis()-x) == 1){
+    public boolean isValidMove(Coordinate target){
+        if(Movement.isVertical(this, target)){
+            if(Math.abs(this.getCoordinate().getDigit() - target.getDigit()) == 1){
                 return true;
             }
-            else if((Math.abs(this.getxAxis()-x) == 2) && (!this.getHasMoved())){
+            else if((Math.abs(this.getCoordinate().getDigit() - target.getDigit()) == 2) && (!this.getHasMoved())){
                 return true;
             }
         }
+        System.out.println("Target destination does not lead to a vertical move. Selected piece at " + getCoordinate().toString() + "cannot move to target at " + target.toString());
         return false;
-    }
-
-    public void setStartingPosition(int x){
-        this.setxAxis(x);
-        if(this.getColor() == Color.BLACK){
-            this.setyAxis(6);
-        }
-        else{
-            this.setyAxis(1);
-        }
     }
 }

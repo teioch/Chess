@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Coordinate;
 import Game.Movement;
 import Game.Piece;
 import Game.Color;
@@ -13,46 +14,28 @@ import Game.Type;
  * To change this template use File | Settings | File Templates.
  */
 public class Rook extends Piece{
+
     public Rook(Color color){
         this.setColor(color);
         this.setType(Type.ROOK);
+        this.setHasMoved(false);
         if(this.getColor() == Color.BLACK){
-            this.setIcon("B.T");
+            this.setIcon("B:♖");
         }
         else{
-            this.setIcon("W.T");
+            this.setIcon("W:♖");
         }
     }
 
-    public boolean isValidMove(int x, int y){
-        if(Movement.isVertical(this, x, y) && !Movement.isHorizontal(this, x, y)){
+    public boolean isValidMove(Coordinate target){
+        if(Movement.isVertical(this, target) && !Movement.isHorizontal(this, target)){
             return true;
         }
-        else if(!Movement.isVertical(this, x, y) && Movement.isHorizontal(this, x, y)){
+        else if(!Movement.isVertical(this, target) && Movement.isHorizontal(this, target)){
             return true;
         }
         else{
             return true;
-        }
-    }
-
-    public void setStartingPositionOne(){
-        this.setxAxis(0);
-        if(this.getColor() == Color.BLACK){
-            this.setyAxis(7);
-        }
-        else{
-            this.setyAxis(0);
-        }
-    }
-
-    public void startingPositionTwo(){
-        this.setxAxis(7);
-        if(this.getColor() == Color.BLACK){
-            this.setyAxis(7);
-        }
-        else{
-            this.setyAxis(0);
         }
     }
 }

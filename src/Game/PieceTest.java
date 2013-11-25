@@ -1,5 +1,6 @@
 package Game;
 
+import Pieces.King;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -16,8 +17,7 @@ public class PieceTest {
 
     @Test
     public void shouldHaveMoved(){
-        Piece piece = new Piece(Color.WHITE, Type.KING);
+        King piece = new King(Color.WHITE);
         assertFalse(piece.getHasMoved());
-
     }
 }

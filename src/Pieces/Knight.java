@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Coordinate;
 import Game.Piece;
 import Game.Color;
 import Game.Type;
@@ -16,17 +17,18 @@ public class Knight extends Piece{
     public Knight(Color color){
         this.setColor(color);
         this.setType(Type.KNIGHT);
+        this.setHasMoved(false);
         if(this.getColor() == Color.BLACK){
-            this.setIcon("B.N");
+            this.setIcon("B:♘");
         }
         else{
-            this.setIcon("W.N");
+            this.setIcon("W:♘");
         }
     }
 
-    public boolean isValidMove(int x, int y){
-        int horizontalSteps = Math.abs(this.getxAxis()-x);
-        int verticalSteps = Math.abs(this.getyAxis()-y);
+    public boolean isValidMove(Coordinate target){
+        int horizontalSteps = Math.abs(this.getCoordinate().getAlfaToNumeric() - target.getAlfaToNumeric());
+        int verticalSteps = Math.abs(this.getCoordinate().getDigit() - target.getDigit());
 
         if(horizontalSteps == 2 && verticalSteps == 1){
             return true;
@@ -36,26 +38,6 @@ public class Knight extends Piece{
         }
         else{
             return false;
-        }
-    }
-
-    public void setStartingPositionOne(){
-        this.setxAxis(1);
-        if(this.getColor() == Color.BLACK){
-            this.setyAxis(7);
-        }
-        else{
-            this.setyAxis(0);
-        }
-    }
-
-    public void startingPositionTwo(){
-        this.setxAxis(6);
-        if(this.getColor() == Color.BLACK){
-            this.setyAxis(7);
-        }
-        else{
-            this.setyAxis(0);
         }
     }
 }

@@ -7,12 +7,11 @@ package Game;
  * Time: 14:28
  * To change this template use File | Settings | File Templates.
  */
-public class Piece {
+public abstract class Piece{
     private Color color;
     private Type type;
     private String icon;
-    private int xAxis;
-    private int yAxis;
+    private Coordinate coordinate;
     private boolean hasMoved;
 
     public Piece(){
@@ -57,19 +56,13 @@ public class Piece {
         this.hasMoved = hasMoved;
     }
 
-    public int getxAxis(){
-        return xAxis;
+    public Coordinate getCoordinate(){
+        return coordinate;
     }
 
-    public int getyAxis(){
-        return yAxis;
+    public void setCoordinate(Coordinate coordinate){
+        this.coordinate = coordinate;
     }
 
-    public void setxAxis(int xAxis){
-        this.xAxis = xAxis;
-    }
-
-    public void setyAxis(int yAxis){
-        this.yAxis = yAxis;
-    }
+    public abstract boolean isValidMove(Coordinate target);
 }

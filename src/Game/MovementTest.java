@@ -19,116 +19,99 @@ public class MovementTest {
     @Test
     public void shouldNotBeLegalForKing(){
         Pieces.King piece = new King(Color.WHITE);
-
-        piece.setxAxis(3);
-        piece.setyAxis(5);
+        piece.setCoordinate(new Coordinate(3, 5));
 
         //New location
-        int x = 6;
-        int y = 2;
-        assertFalse(piece.isValidMove(x, y));
-        x = 3;
-        y = 3;
-        assertFalse(piece.isValidMove(x, y));
+        Coordinate target = new Coordinate(6,3);
+        assertFalse(piece.isValidMove(target));
+
+        target.setNewCoordinate(new Coordinate(3,3));
+        assertFalse(piece.isValidMove(target));
     }
 
     @Test
     public void shouldBeLegalForKing(){
         King piece = new King(Color.BLACK);
-        piece.setxAxis(3);
-        piece.setyAxis(3);
+        piece.setCoordinate(new Coordinate(3, 3));
 
         //New location
-        int x = 4;
-        int y = 3;
-        assertTrue(piece.isValidMove(x, y));
-        x = 3;
-        y = 4;
-        assertTrue(piece.isValidMove(x, y));
-        x = 4;
-        y = 4;
-        assertTrue(piece.isValidMove(x, y));
+        Coordinate target = new Coordinate(4,3);
+        assertTrue(piece.isValidMove(target));
+
+        target.setNewCoordinate(new Coordinate(3,4));
+        assertTrue(piece.isValidMove(target));
+
+        target.setNewCoordinate(new Coordinate(4,4));
+        assertTrue(piece.isValidMove(target));
     }
 
     @Test
     public void specialMoveForKingShouldBeLegal(){
         King piece = new King(Color.BLACK);
-        piece.setxAxis(4);
-        piece.setyAxis(1);
+        piece.setCoordinate(new Coordinate(4, 1));
 
         //New location
-        int x = 7;
-        int y = 1;
+        Coordinate target = new Coordinate(7,1);
 
-        assertTrue(piece.isValidMove(x, y));
+        assertTrue(piece.isValidMove(target));
     }
 
     @Test
     public void shouldNotBeLegalForQueen(){
         Queen piece = new Queen(Color.BLACK);
-        piece.setxAxis(3);
-        piece.setyAxis(3);
+        piece.setCoordinate(new Coordinate(3,3));
 
         //New location
-        int x = 6;
-        int y = 7;
-        assertFalse(piece.isValidMove(x,y));
+        Coordinate target = new Coordinate(6,7);
+        assertFalse(piece.isValidMove(target));
     }
 
     @Test
     public void shouldBeLegalForQueen(){
         Queen piece = new Queen(Color.BLACK);
-        piece.setxAxis(3);
-        piece.setyAxis(3);
+        piece.setCoordinate(new Coordinate(3,3));
 
         //New location
-        int x = 6;
-        int y = 6;
-        assertTrue(piece.isValidMove(x, y));
-        x = 6;
-        y = 3;
-        assertTrue(piece.isValidMove(x, y));
-        x = 3;
-        y = 6;
-        assertTrue(piece.isValidMove(x, y));
+        Coordinate target = new Coordinate(6,6);
+        assertTrue(piece.isValidMove(target));
+
+        target.setNewCoordinate(new Coordinate(6,3));
+        assertTrue(piece.isValidMove(target));
+
+        target.setNewCoordinate(new Coordinate(3,6));
+        assertTrue(piece.isValidMove(target));
     }
 
     @Test
     public void shouldBeHorizontalMove(){
         Queen piece = new Queen(Color.BLACK);
-        piece.setxAxis(3);
-        piece.setyAxis(3);
+        piece.setCoordinate(new Coordinate(3,3));
 
         //New location
-        int x = 4;
-        int y = 3;
+        Coordinate target = new Coordinate(4,3);
 
-        assertTrue(Movement.isHorizontal(piece, x, y));
+        assertTrue(Movement.isHorizontal(piece, target));
     }
 
     @Test
     public void shouldBeVerticalMove(){
         Queen piece = new Queen(Color.BLACK);
-        piece.setxAxis(3);
-        piece.setyAxis(3);
+        piece.setCoordinate(new Coordinate(3,3));
 
         //New location
-        int x = 3;
-        int y = 4;
+        Coordinate target = new Coordinate(3,4);
 
-        assertTrue(Movement.isVertical(piece, x, y));
+        assertTrue(Movement.isVertical(piece, target));
     }
 
     @Test
     public void shouldBeDiagonalMove(){
         Queen piece = new Queen(Color.BLACK);
-        piece.setxAxis(3);
-        piece.setyAxis(3);
+        piece.setCoordinate(new Coordinate(3,3));
 
         //New location
-        int x = 4;
-        int y = 4;
+        Coordinate target = new Coordinate(4,4);
 
-        assertTrue(Movement.isDiagonal(piece, x, y));
+        assertTrue(Movement.isDiagonal(piece, target));
     }
 }

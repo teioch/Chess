@@ -9,8 +9,8 @@ package Game;
  */
 public class Movement {
 
-    public static boolean isHorizontal(Piece piece, int x, int y){
-        if(piece.getyAxis() == y){
+    public static boolean isHorizontal(Piece piece, Coordinate target){
+        if(piece.getCoordinate().getDigit() == target.getDigit()){
             return true;
         }
         else{
@@ -18,8 +18,8 @@ public class Movement {
         }
     }
 
-    public static boolean isVertical(Piece piece, int x, int y){
-        if(piece.getxAxis() == x){
+    public static boolean isVertical(Piece piece, Coordinate target){
+        if(piece.getCoordinate().getAlfaToNumeric() == target.getAlfaToNumeric()){
             return true;
         }
         else{
@@ -27,9 +27,9 @@ public class Movement {
         }
     }
 
-    public static boolean isDiagonal(Piece piece, int x, int y){
-        int diffX = Math.abs(piece.getxAxis() - x);
-        int diffY = Math.abs(piece.getyAxis()-y);
+    public static boolean isDiagonal(Piece piece, Coordinate target){
+        int diffX = Math.abs(piece.getCoordinate().getAlfaToNumeric() - target.getAlfaToNumeric());
+        int diffY = Math.abs(piece.getCoordinate().getDigit() - target.getDigit());
         if(diffX == diffY){
             return true;
         }

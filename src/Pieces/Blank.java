@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Coordinate;
 import Game.Piece;
 import Game.Color;
 import Game.Type;
@@ -17,5 +18,9 @@ public class Blank extends Piece{
         this.setColor(color);
         this.setType(Type.BLANK);
         this.setIcon("   ");
+    }
+
+    public boolean isValidMove(Coordinate target){
+        return false;
     }
 }

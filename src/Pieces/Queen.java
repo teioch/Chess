@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Coordinate;
 import Game.Piece;
 import Game.Type;
 import Game.Movement;
@@ -17,30 +18,22 @@ public class Queen extends Piece {
     public Queen(Color color){
         this.setColor(color);
         this.setType(Type.QUEEN);
+        this.setHasMoved(false);
         if(this.getColor() == Color.BLACK){
-            this.setIcon("B.Q");
+            this.setIcon("B:♕");
         }
         else{
-            this.setIcon("W.Q");
+            this.setIcon("W:♕");
         }
     }
 
-    public boolean isValidMove(int x, int y){
-        if(Movement.isVertical(this, x, y) || Movement.isHorizontal(this, x, y) || Movement.isDiagonal(this, x, y)){
+    public boolean isValidMove(Coordinate target){
+        if(Movement.isVertical(this, target) || Movement.isHorizontal(this, target) || Movement.isDiagonal(this, target)){
             return true;
         }
         else{
+            System.out.println("Movement failed. Could not move piece from " + getCoordinate().toString() + " to " + target.toString());
             return false;
-        }
-    }
-
-    public void setStartingPosition(){
-        this.setxAxis(3);
-        if(this.getColor() == Color.BLACK){
-            this.setyAxis(7);
-        }
-        else{
-            this.setyAxis(0);
         }
     }
 }

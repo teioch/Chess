@@ -1,6 +1,7 @@
 package Pieces;
 
 import Game.Color;
+import Game.Coordinate;
 import Game.Piece;
 import Game.Type;
 
@@ -16,29 +17,34 @@ public class King extends Piece{
     public King(Color color){
         this.setType(Type.KING);
         this.setColor(color);
+        this.setHasMoved(false);
         if(this.getColor() == Color.BLACK){
-            this.setIcon("B.K");
+            this.setIcon("B:♔");
         }
         else{
-            this.setIcon("W.K");
+            this.setIcon("W:♔");
         }
     }
 
-    public boolean isValidMove(int x, int y){
+    public boolean isValidMove(Coordinate target){
 
-        if((Math.abs(this.getyAxis() - y) > 1 ) ||
-                (Math.abs(this.getxAxis() - x) > 1 )){
+        if((Math.abs(this.getCoordinate().getDigit() - target.getDigit()) > 1 ) ||
+                (Math.abs(this.getCoordinate().getAlfaToNumeric() - target.getAlfaToNumeric()) > 1 )){
             return false;
         }
         else if(!this.getHasMoved()){
 
             switch(this.getColor()){
                 case BLACK:
-                    if((x == 7 || x==1) && y == 8){
+                    if((target.getAlfaToNumeric() == 7 ||
+                            target.getAlfaToNumeric() == 1) &&
+                            target.getAlfaToNumeric() == 8){
                         return true;
                     }
                 case WHITE:
-                    if((x == 7 || x==1) && y == 1){
+                    if((target.getAlfaToNumeric() == 7 ||
+                            target.getAlfaToNumeric() == 1) &&
+                            target.getAlfaToNumeric() == 1){
                         return true;
                     }
                 default:
@@ -47,15 +53,5 @@ public class King extends Piece{
             }
         }
         return true;
-    }
-
-    public void setStartingPosition(){
-        this.setyAxis(4);
-        if(this.getColor() == Color.BLACK){
-            this.setyAxis(7);
-        }
-        else{
-            this.setyAxis(0);
-        }
     }
 }
