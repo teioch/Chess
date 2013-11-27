@@ -33,20 +33,20 @@ public class Coordinate {
         this.alfa = alfa;
     }
 
-    public int getDigit(){
+    public int getYCoordinate(){
         return digit;
     }
 
-    public void setDigit(int digit){
+    public void setYCoordinate(int digit){
         this.digit = digit;
     }
 
     public void setNewCoordinate(Coordinate newCoordinate){
         this.alfa = newCoordinate.getAlfa();
-        this.digit = newCoordinate.getDigit();
+        this.digit = newCoordinate.getYCoordinate();
     }
 
-    public int getAlfaToNumeric(){
+    public int getXCoordinate(){
         switch(alfa.charAt(0)){
             case('A'):
                 return 0;

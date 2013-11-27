@@ -43,7 +43,7 @@ public class Player {
         this.hasSelectedPiece = status;
     }
 
-    public boolean getHasSelectedPiece(){
+    public boolean hasSelectedPiece(){
         return hasSelectedPiece;
     }
 
@@ -51,7 +51,7 @@ public class Player {
         this.hasDefinedLegalMove = status;
     }
 
-    public boolean getHasDefinedLegalMove(){
+    public boolean hasDefinedLegalMove(){
         return hasDefinedLegalMove;
     }
 }

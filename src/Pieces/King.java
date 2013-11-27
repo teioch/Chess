@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Board;
 import Game.Color;
 import Game.Coordinate;
 import Game.Piece;
@@ -26,25 +27,25 @@ public class King extends Piece{
         }
     }
 
-    public boolean isValidMove(Coordinate target){
+    public boolean isValidMove(Coordinate target, Board board){
 
-        if((Math.abs(this.getCoordinate().getDigit() - target.getDigit()) > 1 ) ||
-                (Math.abs(this.getCoordinate().getAlfaToNumeric() - target.getAlfaToNumeric()) > 1 )){
+        if((Math.abs(this.getCoordinate().getYCoordinate() - target.getYCoordinate()) > 1 ) ||
+                (Math.abs(this.getCoordinate().getXCoordinate() - target.getXCoordinate()) > 1 )){
             return false;
         }
         else if(!this.getHasMoved()){
 
             switch(this.getColor()){
                 case BLACK:
-                    if((target.getAlfaToNumeric() == 7 ||
-                            target.getAlfaToNumeric() == 1) &&
-                            target.getAlfaToNumeric() == 8){
+                    if((target.getXCoordinate() == 7 ||
+                            target.getXCoordinate() == 1) &&
+                            target.getXCoordinate() == 8){
                         return true;
                     }
                 case WHITE:
-                    if((target.getAlfaToNumeric() == 7 ||
-                            target.getAlfaToNumeric() == 1) &&
-                            target.getAlfaToNumeric() == 1){
+                    if((target.getXCoordinate() == 7 ||
+                            target.getXCoordinate() == 1) &&
+                            target.getXCoordinate() == 1){
                         return true;
                     }
                 default:

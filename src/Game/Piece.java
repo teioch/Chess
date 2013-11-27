@@ -64,5 +64,17 @@ public abstract class Piece{
         this.coordinate = coordinate;
     }
 
-    public abstract boolean isValidMove(Coordinate target);
+    public boolean isOpponentTo(Piece target){
+        if(target.getColor() == Color.BLANK){
+            return false;
+        }
+        else if(this.getColor() != target.getColor()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public abstract boolean isValidMove(Coordinate target, Board board);
 }

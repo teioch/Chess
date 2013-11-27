@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Board;
 import Game.Coordinate;
 import Game.Movement;
 import Game.Piece;
@@ -27,7 +28,7 @@ public class Rook extends Piece{
         }
     }
 
-    public boolean isValidMove(Coordinate target){
+    public boolean isValidMove(Coordinate target, Board board){
         if(Movement.isVertical(this, target) && !Movement.isHorizontal(this, target)){
             return true;
         }

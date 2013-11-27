@@ -10,7 +10,7 @@ package Game;
 public class Movement {
 
     public static boolean isHorizontal(Piece piece, Coordinate target){
-        if(piece.getCoordinate().getDigit() == target.getDigit()){
+        if(piece.getCoordinate().getYCoordinate() == target.getYCoordinate()){
             return true;
         }
         else{
@@ -19,7 +19,7 @@ public class Movement {
     }
 
     public static boolean isVertical(Piece piece, Coordinate target){
-        if(piece.getCoordinate().getAlfaToNumeric() == target.getAlfaToNumeric()){
+        if(piece.getCoordinate().getXCoordinate() == target.getXCoordinate()){
             return true;
         }
         else{
@@ -28,8 +28,8 @@ public class Movement {
     }
 
     public static boolean isDiagonal(Piece piece, Coordinate target){
-        int diffX = Math.abs(piece.getCoordinate().getAlfaToNumeric() - target.getAlfaToNumeric());
-        int diffY = Math.abs(piece.getCoordinate().getDigit() - target.getDigit());
+        int diffX = Math.abs(piece.getCoordinate().getXCoordinate() - target.getXCoordinate());
+        int diffY = Math.abs(piece.getCoordinate().getYCoordinate() - target.getYCoordinate());
         if(diffX == diffY){
             return true;
         }

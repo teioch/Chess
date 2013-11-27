@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Board;
 import Game.Coordinate;
 import Game.Piece;
 import Game.Color;
@@ -26,9 +27,9 @@ public class Knight extends Piece{
         }
     }
 
-    public boolean isValidMove(Coordinate target){
-        int horizontalSteps = Math.abs(this.getCoordinate().getAlfaToNumeric() - target.getAlfaToNumeric());
-        int verticalSteps = Math.abs(this.getCoordinate().getDigit() - target.getDigit());
+    public boolean isValidMove(Coordinate target, Board board){
+        int horizontalSteps = Math.abs(this.getCoordinate().getXCoordinate() - target.getXCoordinate());
+        int verticalSteps = Math.abs(this.getCoordinate().getYCoordinate() - target.getYCoordinate());
 
         if(horizontalSteps == 2 && verticalSteps == 1){
             return true;

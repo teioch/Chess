@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Board;
 import Game.Coordinate;
 import Game.Movement;
 import Game.Piece;
@@ -26,7 +27,7 @@ public class Bishop extends Piece{
         }
     }
 
-    public boolean isValidMove(Coordinate target){
+    public boolean isValidMove(Coordinate target, Board board){
         if(Movement.isDiagonal(this, target)){
             return true;
         }

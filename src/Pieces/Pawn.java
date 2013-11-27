@@ -1,5 +1,6 @@
 package Pieces;
 
+import Game.Board;
 import Game.Color;
 import Game.Coordinate;
 import Game.Movement;
@@ -27,16 +28,43 @@ public class Pawn extends Piece{
         }
     }
 
-    public boolean isValidMove(Coordinate target){
-        if(Movement.isVertical(this, target)){
-            if(Math.abs(this.getCoordinate().getDigit() - target.getDigit()) == 1){
-                return true;
-            }
-            else if((Math.abs(this.getCoordinate().getDigit() - target.getDigit()) == 2) && (!this.getHasMoved())){
-                return true;
+    public boolean isValidMove(Coordinate target, Board board){
+        int x = target.getXCoordinate();
+        int y = target.getYCoordinate();
+
+        if(board.getPieceAt(x,y).getType() == Type.BLANK){
+            if(Movement.isVertical(this, target)){
+                if(Math.abs(this.getCoordinate().getYCoordinate() - target.getYCoordinate()) == 1){
+                    return true;
+                }
+                else if((Math.abs(this.getCoordinate().getYCoordinate() - target.getYCoordinate()) == 2) && (!this.getHasMoved())){
+                    return true;
+                }
             }
         }
-        System.out.println("Target destination does not lead to a vertical move. Selected piece at " + getCoordinate().toString() + "cannot move to target at " + target.toString());
+        else{
+            if(board.getPieceAt(x,y).getColor() != this.getColor()){
+                if(Movement.isDiagonal(this, target)){
+                    int diffX = Math.abs(this.getCoordinate().getXCoordinate() - target.getXCoordinate());
+                    int diffY = this.getCoordinate().getYCoordinate() - target.getYCoordinate();
+
+                    if(this.getColor() == Color.WHITE){
+                        if(diffY == 1 && diffX == 1){
+                            return true;
+                        }
+                    }
+                    else {
+                        if(diffY == -1 && diffX == 1){
+                            return true;
+                        }
+                    }
+                }
+                else{
+                    System.out.println("Pawn cannot assault this way. Movement is not diagonal");
+                }
+            }
+        }
+        System.out.println("Illegal pawn movement");
         return false;
     }
 }

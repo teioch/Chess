@@ -80,43 +80,41 @@ public class Board {
 
     public Piece selectPiece(BufferedReader input, Player player) throws IOException {
         Piece selectedPiece;
-        System.out.println("Input coordinates for piece selection: ");
-        Coordinate coord = new Coordinate(input);
-        selectedPiece = this.getPieceAt(coord.getAlfaToNumeric(), coord.getDigit());
-        System.out.println("Selected piece type: " + selectedPiece.getType() + ", piece color: " + selectedPiece.getColor());
+        boolean noPieceSelected = true;
 
-        if(selectedPiece.getType() != Type.BLANK){
+        do{
+            System.out.println(player.getColor() + ": Input coordinates for piece selection: ");
+            Coordinate coord = new Coordinate(input);
+
+            selectedPiece = this.getPieceAt(coord.getXCoordinate(), coord.getYCoordinate());
+            System.out.println("Selected piece type: " + selectedPiece.getType() + ", piece color: " + selectedPiece.getColor());
+
             if(selectedPiece.getColor() == player.getColor()){
                 player.setHasSelectedPiece(true);
+                return selectedPiece;
             }
-        }
-        return selectedPiece;
+            else{
+                System.out.println("Not a legal selection. Please select different piece.");
+            }
+        }while(noPieceSelected);
+
+        return new Blank(Color.BLANK);
     }
 
-    public boolean selectDestination(BufferedReader input, Piece selectedPiece, Player player) throws IOException {
+    public boolean selectDestination(BufferedReader input, Piece selectedPiece) throws IOException {
         System.out.println("Currently selected piece coordinates is " + selectedPiece.getCoordinate().toString());
         System.out.println("Input coordinates for destination: ");
         Coordinate coord = new Coordinate(input);
-        int x = coord.getAlfaToNumeric();
-        int y = coord.getDigit();
+        int x = coord.getXCoordinate();
+        int y = coord.getYCoordinate();
 
-        if(selectedPiece.isValidMove(coord)){
-            if(selectedPiece.getType() == Type.KNIGHT){
+        if(selectedPiece.isValidMove(coord, this)){
+            if(!pathIsBlocked(selectedPiece, new Coordinate(x,y))){
+                System.out.println("Move is legal and path is clear.");
                 if(movePiece(selectedPiece, new Coordinate(x,y))){
                     selectedPiece.setCoordinate(new Coordinate(x, y));
                     System.out.println("Coordinates accepted. Piece moved.");
-                    player.setHasDefinedLegalMove(true);
                     return true;
-                }
-            }
-            else{
-                if(!pathIsBlocked(selectedPiece, new Coordinate(x,y))){
-                    if(movePiece(selectedPiece, new Coordinate(x,y))){
-                        selectedPiece.setCoordinate(new Coordinate(x, y));
-                        System.out.println("Coordinates accepted. Piece moved.");
-                        player.setHasDefinedLegalMove(true);
-                        return true;
-                    }
                 }
             }
         }
@@ -125,11 +123,11 @@ public class Board {
 
     public boolean movePiece(Piece piece, Coordinate target){
         Coordinate prevCoord = piece.getCoordinate();
-        int y = target.getDigit();
-        int x = target.getAlfaToNumeric();
+        int y = target.getYCoordinate();
+        int x = target.getXCoordinate();
         if(board[y][x].getColor() != piece.getColor()){
             board[y][x] = piece;
-            board[prevCoord.getDigit()][prevCoord.getAlfaToNumeric()] = new Blank(Color.BLANK);
+            board[prevCoord.getYCoordinate()][prevCoord.getXCoordinate()] = new Blank(Color.BLANK);
             return true;
         }
         System.out.println("You cannot move your piece to a location already beset by your own piece");
@@ -137,7 +135,11 @@ public class Board {
     }
 
     public boolean pathIsBlocked(Piece piece, Coordinate target){
-        if(Movement.isDiagonal(piece, target)){
+        if(piece.getType() == Type.KNIGHT){
+            return false;
+        }
+        else if(Movement.isDiagonal(piece, target)){
+            System.out.println("Movement confirmed diagonal");
             if (diagonalIsBlocked(piece, target)){
                 return true;
             }
@@ -148,23 +150,36 @@ public class Board {
             }
         }
         else if(Movement.isVertical(piece, target)){
-            if (verticalIsBlocked(piece, target)) return true;
+            if (verticalIsBlocked(piece, target)){
+                return true;
+            }
         }
         return false;
     }
 
     private boolean horizontalIsBlocked(Piece piece, Coordinate target) {
-        if(piece.getCoordinate().getDigit() < target.getDigit()){
-            for(int i = piece.getCoordinate().getDigit(); i <= target.getDigit(); i++){
-                if (this.getPieceAt(target.getAlfaToNumeric(), i).getType() != Type.BLANK){
-                    return true;
+        Piece targetPiece = this.getPieceAt(target.getXCoordinate(), target.getYCoordinate());
+        if(piece.getCoordinate().getXCoordinate() < target.getXCoordinate()){
+            for(int i = piece.getCoordinate().getXCoordinate() + 1; i <= target.getXCoordinate(); i++){
+                if (this.getPieceAt(i, target.getYCoordinate()).getColor() != Color.BLANK){
+                    if(i == target.getXCoordinate() && (piece.isOpponentTo(targetPiece))){
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
                 }
             }
         }
-        else if(piece.getCoordinate().getDigit() > target.getDigit()){
-            for(int i = piece.getCoordinate().getDigit(); i >= target.getDigit(); i--){
-                if (this.getPieceAt(target.getAlfaToNumeric(), i).getType() != Type.BLANK){
-                    return true;
+        else if(piece.getCoordinate().getXCoordinate() > target.getXCoordinate()){
+            for(int i = piece.getCoordinate().getXCoordinate() - 1; i >= target.getXCoordinate(); i--){
+                if (this.getPieceAt(i, target.getYCoordinate()).getColor() != Color.BLANK){
+                    if(i == target.getXCoordinate() && (piece.isOpponentTo(targetPiece))){
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
                 }
             }
         }
@@ -172,17 +187,29 @@ public class Board {
     }
 
     private boolean verticalIsBlocked(Piece piece, Coordinate target) {
-        if(piece.getCoordinate().getAlfaToNumeric() < target.getAlfaToNumeric()){
-            for(int i = piece.getCoordinate().getAlfaToNumeric(); i <= target.getAlfaToNumeric(); i++){
-                if (this.getPieceAt(i, target.getDigit()).getType() != Type.BLANK){
-                    return true;
+        Piece targetPiece = this.getPieceAt(target.getXCoordinate(), target.getYCoordinate());
+
+        if(piece.getCoordinate().getYCoordinate() < target.getYCoordinate()){
+            for(int i = piece.getCoordinate().getYCoordinate() + 1; i <= target.getYCoordinate(); i++){
+                if (this.getPieceAt(target.getXCoordinate(), i).getColor() != Color.BLANK){
+                    if(i == target.getYCoordinate() && (piece.isOpponentTo(targetPiece))){
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
                 }
             }
         }
-        else if(piece.getCoordinate().getAlfaToNumeric() > target.getAlfaToNumeric()){
-            for(int i = piece.getCoordinate().getAlfaToNumeric(); i >= target.getAlfaToNumeric(); i--){
-                if (this.getPieceAt(i, target.getDigit()).getType() != Type.BLANK){
-                    return true;
+        else if(piece.getCoordinate().getYCoordinate() > target.getYCoordinate()){
+            for(int i = piece.getCoordinate().getYCoordinate() - 1; i >= target.getYCoordinate(); i--){
+                if (this.getPieceAt(target.getXCoordinate(), i).getColor() != Color.BLANK){
+                    if(i == target.getYCoordinate() && (piece.isOpponentTo(targetPiece))){
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
                 }
             }
         }
@@ -190,22 +217,132 @@ public class Board {
     }
 
     private boolean diagonalIsBlocked(Piece piece, Coordinate target) {
-        if(piece.getCoordinate().getAlfaToNumeric() < target.getAlfaToNumeric()){
-            for(int i = 1; piece.getCoordinate().getAlfaToNumeric()+i <= target.getAlfaToNumeric(); i++){
-                int tempX = piece.getCoordinate().getAlfaToNumeric();
-                int tempY = piece.getCoordinate().getAlfaToNumeric();
+        int pieceX = piece.getCoordinate().getXCoordinate();
+        int pieceY = piece.getCoordinate().getYCoordinate();
 
-                if(this.getPieceAt(tempX + i, tempY + i).getType() != Type.BLANK){
+        if(pieceX < target.getXCoordinate()){
+            if(pieceY < target.getYCoordinate()){
+                System.out.println("South east blocked");
+                return isSouthEastBlocked(piece, target);
+            }
+            else{
+                System.out.println("North east blocked");
+                return isNorthEastBlocked(piece, target);
+            }
+        }
+        else{
+            if(pieceY < target.getYCoordinate()){
+                System.out.println("South west blocked");
+                return isSouthWestBlocked(piece, target);
+            }
+            else{
+                System.out.println("North west blocked");
+                return isNorthWestBlocked(piece, target);
+            }
+        }
+    }
+
+    private boolean isNorthEastBlocked(Piece piece, Coordinate target){
+        boolean boardEdgeBreached = false;
+        Piece targetPiece = this.getPieceAt(target.getXCoordinate(), target.getYCoordinate());
+
+        for(int i = 1; !boardEdgeBreached; i++){
+            int pieceX = piece.getCoordinate().getXCoordinate();
+            int pieceY = piece.getCoordinate().getYCoordinate();
+
+            if((pieceX + i) >= AXIS || (pieceY - i) <= 0){
+                //Edge of board breached
+                break;
+            }
+
+            Piece nextPiece = getPieceAt((pieceX + i),(pieceY - i));
+
+            if(nextPiece.getType() != Type.BLANK){
+                if(nextPiece == targetPiece && piece.isOpponentTo(targetPiece)){
+                    return false;
+                }
+                else{
                     return true;
                 }
             }
         }
-        else if(piece.getCoordinate().getAlfaToNumeric() > target.getAlfaToNumeric()){
-            for(int i = -1; piece.getCoordinate().getAlfaToNumeric()+i >= target.getAlfaToNumeric(); i--){
-                int tempX = piece.getCoordinate().getAlfaToNumeric();
-                int tempY = piece.getCoordinate().getAlfaToNumeric();
+        return false;
+    }
 
-                if(this.getPieceAt(tempX+i, tempY+i).getType() != Type.BLANK){
+    private boolean isSouthEastBlocked(Piece piece, Coordinate target){
+        boolean boardEdgeBreached = false;
+        Piece targetPiece = this.getPieceAt(target.getXCoordinate(), target.getYCoordinate());
+
+        for(int i = 1; !boardEdgeBreached; i++){
+            int pieceX = piece.getCoordinate().getXCoordinate();
+            int pieceY = piece.getCoordinate().getYCoordinate();
+
+            if((pieceX + i) >= AXIS || (pieceY + i) >= AXIS){
+                //Edge of board breached
+                break;
+            }
+
+            Piece nextPiece = getPieceAt((pieceX + i),(pieceY + i));
+
+            if(nextPiece.getType() != Type.BLANK){
+                if(nextPiece == targetPiece && piece.isOpponentTo(targetPiece)){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isSouthWestBlocked(Piece piece, Coordinate target){
+        boolean boardEdgeBreached = false;
+        Piece targetPiece = this.getPieceAt(target.getXCoordinate(), target.getYCoordinate());
+
+        for(int i = 1; !boardEdgeBreached; i++){
+            int pieceX = piece.getCoordinate().getXCoordinate();
+            int pieceY = piece.getCoordinate().getYCoordinate();
+
+            if((pieceX - i) <= 0 || (pieceY + i) >= AXIS){
+                //Edge of board breached
+                break;
+            }
+
+            Piece nextPiece = getPieceAt((pieceX - i),(pieceY + i));
+
+            if(nextPiece.getType() != Type.BLANK){
+                if(nextPiece == targetPiece && piece.isOpponentTo(targetPiece)){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isNorthWestBlocked(Piece piece, Coordinate target){
+        boolean boardEdgeBreached = false;
+        Piece targetPiece = this.getPieceAt(target.getXCoordinate(), target.getYCoordinate());
+
+        for(int i = 1; !boardEdgeBreached; i++){
+            int pieceX = piece.getCoordinate().getXCoordinate();
+            int pieceY = piece.getCoordinate().getYCoordinate();
+
+            if((pieceX - i) <= 0 || (pieceY - i) <= 0){
+                //Edge of board breached
+                break;
+            }
+
+            Piece nextPiece = getPieceAt((pieceX - i),(pieceY + i));
+
+            if(nextPiece.getType() != Type.BLANK){
+                if(nextPiece == targetPiece && piece.isOpponentTo(targetPiece)){
+                    return false;
+                }
+                else{
                     return true;
                 }
             }

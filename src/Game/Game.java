@@ -26,22 +26,31 @@ public class Game {
         players.add(playerWhite);
         players.add(playerBlack);
         boolean gameOver = false;
+        boolean roundComplete = false;
 
         while(!gameOver){
             for(Player player: players){
-                board.printBoard();
-                while(!player.getHasSelectedPiece()){
+                System.out.println("Before while: " + ((!player.hasSelectedPiece()) && (!player.hasDefinedLegalMove())));
+                while(!roundComplete){
+                    board.printBoard();
                     selectedPiece = board.selectPiece(input, player);
+                    if(selectedPiece.getColor() == player.getColor()){
+                        System.out.println("Selected piece is the correct color");
+                        if(board.selectDestination(input, selectedPiece)){
+                            System.out.println("Attempted move is legal");
+                            player.setHasDefinedLegalMove(true);
+                        }
+                    }
+                    if(player.hasSelectedPiece() && player.hasDefinedLegalMove()){
+                        break;
+                    }
                 }
-                while(!player.getHasDefinedLegalMove()){
-                    board.selectDestination(input, selectedPiece, player);
-                }
+
                 resetPlayerStatus(player);
 
                 //check: do any of the possible moves for the recently moved piece result in check or check mate?
                 //next player turn
             }
-            gameOver = true;
         }
     }
 
